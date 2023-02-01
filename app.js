@@ -1,7 +1,7 @@
 const express = require("express");
 const bodPraser = require("body-parser");
 const _ = require('lodash');
-
+const dotenv = require('dotenv');
 const mongoose = require("mongoose");
 const { redirect } = require("express/lib/response");
 const app = express();
@@ -10,7 +10,10 @@ app.set('view engine', "ejs");
 app.use(bodPraser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
-mongoose.connect("mongodb+srv://admin-het:admin-het@cluster0.oeivpka.mongodb.net/todolistDB");
+dotenv.config();
+
+
+mongoose.connect(process.env.MONGO_URL);
 
 
 const workItem = [];
@@ -137,4 +140,3 @@ app.listen(port, function () {
 
 
 
-// Link: https://young-gorge-25624.herokuapp.com/
