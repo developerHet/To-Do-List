@@ -12,10 +12,16 @@ app.use(express.static("public"));
 
 dotenv.config();
 
-let port = process.env.PORT;
 
-mongoose.connect(process.env.MONGO_URL);
-
+const connectDB = async () => {
+    try {
+      const conn = await mongoose.connect(process.env.MONGO_URL);
+      console.log(`MongoDB Connected: ${conn.connection.host}`);
+    } catch (error) {
+      console.log(error);
+      process.exit(1);
+    }
+}
 
 const workItem = [];
 
@@ -130,14 +136,20 @@ app.get("/:customListName",function(req,res){
 });
 
 
+let port = process.env.PORT;
+
+
 if (port == null || port == "") {
   port = 3000;
 }
 
 
-app.listen(port, function () {
-    console.log("Server running on port");
-});
+//Connect to the database before listening
+connectDB().then(() => {
+    app.listen(PORT, () => {
+        console.log("listening for requests");
+    })
+})
 
 
 
