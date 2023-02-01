@@ -12,6 +12,7 @@ app.use(express.static("public"));
 
 dotenv.config();
 
+let port = process.env.PORT;
 
 mongoose.connect(process.env.MONGO_URL);
 
@@ -128,7 +129,7 @@ app.get("/:customListName",function(req,res){
     
 });
 
-let port = process.env.PORT;
+
 if (port == null || port == "") {
   port = 3000;
 }
